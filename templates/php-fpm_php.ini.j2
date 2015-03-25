@@ -1,0 +1,23 @@
+[PHP]
+engine = On
+expose_php = Off
+max_execution_time = 60
+memory_limit = -1
+error_reporting = E_ALL & ~E_DEPRECATED
+display_errors = Off
+display_startup_errors = Off
+html_errors = Off
+default_socket_timeout = 5
+file_uploads = On
+upload_tmp_dir = /tmp/php
+upload_max_filesize = 50M
+post_max_size = 50M
+max_file_uploads = 20
+date.timezone = '{{ php_timezone }}'
+
+# If this number is kept as 1, the PHP interpreter will do its
+# best to process the file that is as near to the requested file as possible.
+# This is a possible security risk.
+# If this number is set to 0, conversely, the interpreter will only process
+# the exact file path — a much safer alternative.
+cgi.fix_pathinfo = 0

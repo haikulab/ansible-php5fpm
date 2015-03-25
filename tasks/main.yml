@@ -1,0 +1,32 @@
+---
+
+- name: init | Add ppa Repository
+  apt_repository: repo=ppa:{{ php_ppa }}
+
+- name: Install php5-fpm and php5-cli
+  apt: pkg={{ item }} state=latest
+  with_items: php_default_packages
+  register: php_installed
+
+- name: Securing php.ini
+  when: php_installed|success
+  lineinfile: >
+    dest=/etc/php5/fpm/php.ini
+    state=present
+    regexp='^(|;){{ item.key }}'
+    line='{{ item.key }} = {{ item.value }}'
+  with_items:
+    - { key: 'cgi.fix_pathinfo',       value: '0'}
+    - { key: 'expose_php',             value: 'Off'}
+    - { key: 'date.timezone',          value: '"Pacific/Auckland"'}
+  notify:
+    - restart php5-fpm
+
+- name: Load php pool configuration
+  template: src=www.conf.j2 dest=/etc/php5/fpm/pool.d/www.conf
+  notify: restart php5-fpm
+
+## install php-fpm-cli script
+## https://gist.github.com/muhqu/91497df3a110f594b992
+- name: Include php-fpm-cli script
+  include: php-fpm-cli.yml

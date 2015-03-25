@@ -1,0 +1,25 @@
+---
+# default variables
+
+# please overwrite in your playbook.yml
+php_ppa: "ondrej/php5-5.6"
+php_user: www-data
+php_group: www-data
+php_listen: /var/run/php5-fpm.sock
+php_timezone: UTC
+
+php_default_packages:
+  - python-software-properties
+  - php5-cli
+  - php5-fpm
+  - php5-mcrypt
+  - php5-imagick
+  - php5-curl
+  - php5-gd
+  - php5-mysql
+  - php5-xmlrpc
+
+# `python-software-properties` is used to be
+# able to add PPAs
+
+php_app_name: "My Awesome App"
